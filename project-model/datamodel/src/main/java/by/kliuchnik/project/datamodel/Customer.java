@@ -15,11 +15,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Customer extends AbstractModel {
 
-	@Override
-	public String toString() {
-		return "Customer [user=" + user + ", orders=" + orders + ", address=" + address + ", bankR=" + bankR + "]";
-	}
-
+	
 	@MapsId
 	@OneToOne(fetch = FetchType.LAZY, optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(nullable = false, updatable = false, name = "id")
@@ -64,6 +60,10 @@ public class Customer extends AbstractModel {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	@Override
+	public String toString() {
+		return "Customer [user=" + user + ", orders=" + orders + ", address=" + address + ", bankR=" + bankR + "]";
 	}
 
 }

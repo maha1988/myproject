@@ -14,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import by.kliuchnik.project.dataaccess.ProductDao;
+import by.kliuchnik.project.dataaccess.SkladDao;
 import by.kliuchnik.project.dataaccess.filters.ProductFilter;
 import by.kliuchnik.project.dataaccess.impl.AbstractDaoImpl;
 
@@ -31,6 +32,8 @@ public class ProductServiceTest {
 
     @Inject
     private ProductDao productDao;
+    @Inject
+    private SkladService skladService;
     
 	
 
@@ -93,13 +96,16 @@ public class ProductServiceTest {
 		int testObjectsCount = 5;
 		for (int i = 0; i < testObjectsCount; i++) {
 			Product product = new Product();
-			 Sklad sklad = new Sklad();		        
+			 Sklad sklad = new Sklad();	
+			 
 			product.setProductName("Dress"+i);
 			product.setUnit(Unit.PIECE);
 	        product.setCurrentQuantity(4L);
 	        product.setPrice(new BigDecimal("6000.00"));
 	        sklad.setName("clothes");
 	        product.setSklad(sklad);   
+	        
+	        skladService.register(sklad);
 	        productService.register(product, sklad);
 
 		}

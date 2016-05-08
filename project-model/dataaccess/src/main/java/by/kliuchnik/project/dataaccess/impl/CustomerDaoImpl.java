@@ -14,55 +14,75 @@ import org.hibernate.jpa.criteria.OrderImpl;
 import org.springframework.stereotype.Repository;
 
 import by.kliuchnik.project.dataaccess.CustomerDao;
-import by.kliuchnik.project.dataaccess.filters.UserFilter;
+import by.kliuchnik.project.dataaccess.filters.CustomerFilter;
 import by.kliuchnik.project.datamodel.Customer;
 import by.kliuchnik.project.datamodel.Customer_;
+
+import by.kliuchnik.project.datamodel.User_;
 
 @Repository
 public class CustomerDaoImpl extends AbstractDaoImpl<Customer, Long> implements CustomerDao {
 
 	protected CustomerDaoImpl() {
 		super(Customer.class);
-		
 	}
-	 @Override
-	    public List<Customer>find (UserFilter filter) {
-	        EntityManager em = getEntityManager();
+	@Override
 
-	        CriteriaBuilder cb = em.getCriteriaBuilder();
+	public List<Customer> find (CustomerFilter filter) {
+        EntityManager em = getEntityManager();
 
-	        CriteriaQuery<Customer> cq = cb.createQuery(Customer.class);
+        CriteriaBuilder cb = em.getCriteriaBuilder();
 
-	        Root<Customer> from = cq.from(Customer.class);
-	     // set selection
-	        cq.select(from);
+        CriteriaQuery<Customer> cq = cb.createQuery(Customer.class);
 
-	        if (filter.getUserName() != null) {
-	            Predicate addressEqualCondition = cb.equal(from.get(Customer_.address), filter.getUserName());
-	            Predicate bankREqualCondition = cb.equal(from.get(Customer_.bankR), filter.getUserName());
-	            cq.where(cb.or(addressEqualCondition, bankREqualCondition));
-	        }
-	        // set fetching
-	        if (filter.isFetchUser()) {
-	            from.fetch(Customer_.user, JoinType.LEFT);
-	        }
+        Root<Customer> from = cq.from(Customer.class);
+     // set selection
+        cq.select(from);// Указывает что селектать SELECT *. from - это
+		// таблица,
+		// а from.get... - это конкретная колонка
+        
+        boolean name = (filter.getName() != null);
+		boolean password = (filter.getPassword() != null);
+		boolean role = (filter.getRole() != null);
+		boolean address = (filter.getAddress() != null);
+		boolean bankR = (filter.getBankR() != null);
+		
+		boolean filtr = (name || password || role || address || bankR );
 
-	        // set sort params
-	        if (filter.getSortProperty() != null) {
-	            cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));
-	        }
+        if (filtr) {
+        	Predicate nameEqualCondition = cb.equal(from.get(Customer_.user).get(User_.name),filter.getName());
+            Predicate passwordEqualCondition = cb.equal(from.get(Customer_.user).get(User_.password),filter.getPassword());
+            Predicate roleEqualCondition = cb.equal(from.get(Customer_.user).get(User_.role),filter.getRole());
+            	            
+	       Predicate addressEqualCondition = cb.equal(from.get(Customer_.address), filter.getAddress());
+	       Predicate bankREqualCondition = cb.equal(from.get(Customer_.bankR), filter.getBankR());
+	       
+	        cq.where(cb.or(nameEqualCondition,passwordEqualCondition,roleEqualCondition,addressEqualCondition, bankREqualCondition));    
+        }
+	                       
+         // set fetching
+        if (filter.isFetchUser()) {
+            from.fetch(Customer_.user, JoinType.LEFT);
+        }
+        if (filter.isFetchOrder()) {
+			from.fetch(Customer_.orders, JoinType.LEFT);
+		}
 
-	        TypedQuery<Customer> q = em.createQuery(cq);
+        // set sort params
+        if (filter.getSortProperty() != null) {
+            cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));
+        }
 
-	        // set paging
-	        if (filter.getOffset() != null && filter.getLimit() != null) {
-	            q.setFirstResult(filter.getOffset());
-	            q.setMaxResults(filter.getLimit());
-	        }
+        TypedQuery<Customer> q = em.createQuery(cq);
 
-	        // set execute query
-	        List<Customer> allitems = q.getResultList();
-	        return allitems;
-	    }
+        // set paging
+        if (filter.getOffset() != null && filter.getLimit() != null) {
+            q.setFirstResult(filter.getOffset());
+            q.setMaxResults(filter.getLimit());
+        }
+
+        // set execute query
+        List<Customer> allitems = q.getResultList();
+            return allitems;
+    }
 }
-

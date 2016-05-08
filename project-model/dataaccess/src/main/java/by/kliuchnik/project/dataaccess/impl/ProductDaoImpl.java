@@ -42,20 +42,27 @@ public class ProductDaoImpl extends AbstractDaoImpl<Product, Long> implements Pr
         // set selection
         cq.select(from);
         
-        if (productFilter.getProductName() != null) {
+        boolean nameProduct = (productFilter.getProductName() != null);
+		boolean unit = (productFilter.getUnit() != null);
+		boolean price = (productFilter.getPrice() != null);
+		boolean currentQuantity = (productFilter.getCurrentQuantity() != null);
+		boolean sklad = (productFilter.getSklad() != null);
+		boolean filter = (nameProduct || unit || price ||currentQuantity || sklad);
+		
+        if (filter) {
             Predicate nameEqualCondition = cb.equal(from.get(Product_.productName), productFilter.getProductName());
-            Predicate unitEqualCondition = cb.equal(from.get(Product_.unit), productFilter.getProductName());
-            Predicate priceEqualCondition = cb.equal(from.get(Product_.price), productFilter.getProductName());
-            Predicate currentQuantityEqualCondition = cb.equal(from.get(Product_.currentQuantity), productFilter.getProductName());
-            Predicate skladEqualCondition = cb.equal(from.get(Product_.sklad), productFilter.getProductName());
+            Predicate unitEqualCondition = cb.equal(from.get(Product_.unit), productFilter.getUnit());
+            Predicate priceEqualCondition = cb.equal(from.get(Product_.price), productFilter.getPrice());
+            Predicate currentQuantityEqualCondition = cb.equal(from.get(Product_.currentQuantity), productFilter.getCurrentQuantity());
+            Predicate skladEqualCondition = cb.equal(from.get(Product_.sklad), productFilter.getSklad());
            
             cq.where(cb.or(nameEqualCondition,unitEqualCondition,priceEqualCondition,currentQuantityEqualCondition,skladEqualCondition));
         }
         // set fetching
         if (productFilter.isFetchSklad()) {
-            from.fetch(Product_.sklad, JoinType.LEFT);// order
+            from.fetch(Product_.sklad, JoinType.LEFT);
         }
-
+       
         // set sort params
         if (productFilter.getSortProperty() != null) {
             cq.orderBy(new OrderImpl(from.get(productFilter.getSortProperty()),productFilter.isSortOrder()));

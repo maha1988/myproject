@@ -41,8 +41,13 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order, Long> implements OrderD
 	        Root<Order> from = cq.from(Order.class);
 	     // set selection
 	        cq.select(from);
+	        
+			boolean customer = (orderFilter.getCustomer() != null);
+			boolean date = (orderFilter.getDate() != null);
+			boolean sum = (orderFilter.getSum() != null);
+			boolean filter = (customer || date || sum );
 
-	        if (orderFilter.getCustomer() != null) {
+	        if (filter) {
 	            Predicate customerEqualCondition = cb.equal(from.get(Order_.customer), orderFilter.getCustomer());
 	            Predicate dateEqualCondition = cb.equal(from.get(Order_.date), orderFilter.getDate());
 	            Predicate sumEqualCondition = cb.equal(from.get(Order_.sum), orderFilter.getSum());
@@ -52,6 +57,9 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order, Long> implements OrderD
 	        // set fetching
 	        if (orderFilter.isFetchCustomer()) {
 	            from.fetch(Order_.customer, JoinType.LEFT);
+	        }
+	        if (orderFilter.isFetchProduct()) {
+	            from.fetch(Order_.products, JoinType.LEFT);
 	        }
 
 	        // set sort params

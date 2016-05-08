@@ -10,10 +10,6 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User extends AbstractModel {
 
-	@Override
-	public String toString() {
-		return "User [name=" + name + ", password=" + password + ", role=" + role + "]";
-	}
 
 	@Column
 	private String name;
@@ -50,5 +46,8 @@ public class User extends AbstractModel {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
+	@Override
+	public String toString() {
+		return "User [name=" + name + ", password=" + password + ", role=" + role + "]";
+	}
 }

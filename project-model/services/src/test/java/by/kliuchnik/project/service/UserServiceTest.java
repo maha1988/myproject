@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
+
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,12 +14,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import by.kliuchnik.project.dataaccess.UserDao;
-import by.kliuchnik.project.dataaccess.filters.UserFilter;
+import by.kliuchnik.project.dataaccess.filters.CustomerFilter;
 import by.kliuchnik.project.dataaccess.impl.AbstractDaoImpl;
 import by.kliuchnik.project.datamodel.Customer;
-import by.kliuchnik.project.datamodel.Customer_;
+
 import by.kliuchnik.project.datamodel.Role;
 import by.kliuchnik.project.datamodel.User;
+import by.kliuchnik.project.datamodel.User_;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:service-context-test.xml" })
@@ -30,6 +31,8 @@ public class UserServiceTest {
 
 	@Inject
 	private UserDao userDao;
+	
+	
 
 	@Test
 	public void test() {
@@ -81,9 +84,9 @@ public class UserServiceTest {
 	@Test
 	public void testSearch() {
 		// clean all data from users
-		  List<Customer> all =userService.getAll();
-	        for (Customer customer : all) {
-	            userService.delete(customer.getId());
+		  List<User> all =userService.getAll();
+	        for (User user : all) {
+	            userService.delete(user.getId());
 		}
 
 		// start create new data
@@ -103,11 +106,11 @@ public class UserServiceTest {
 
 		}
 
-		UserFilter filter = new UserFilter();
+		CustomerFilter filter = new CustomerFilter();
 		List<Customer> result = userService.find(filter);
 		Assert.assertEquals(testObjectsCount, result.size());
 		// test paging
-		filter.setFetchUser(true);
+		filter.setFetchCustomer(true);
 		filter.setFetchOrder(true);
 		
 		int limit = 3;
@@ -121,7 +124,7 @@ public class UserServiceTest {
 		filter.setLimit(null);
 		filter.setOffset(null);
 		filter.setSortOrder(true);
-		filter.setSortProperty(Customer_.address);
+		filter.setSortProperty(User_.name);
 		result = userService.find(filter);
 		Assert.assertEquals(testObjectsCount, result.size());
 

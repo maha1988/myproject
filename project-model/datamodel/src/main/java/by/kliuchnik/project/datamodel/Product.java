@@ -12,11 +12,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Product extends AbstractModel{
  
-	@Override
-	public String toString() {
-		return "Product [productName=" + productName + ", unit=" + unit + ", currentQuantity=" + currentQuantity
-				+ ", price=" + price + ", sklad=" + sklad + "]";
-	}
 
 	@Column (name= "product_name")
 	private String productName;
@@ -73,6 +68,11 @@ public class Product extends AbstractModel{
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Product [productName=" + productName + ", unit=" + unit + ", currentQuantity=" + currentQuantity
+				+ ", price=" + price + ", sklad=" + sklad + "]";
+	}
 	
 }

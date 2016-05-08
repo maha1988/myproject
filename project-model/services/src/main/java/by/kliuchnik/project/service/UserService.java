@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import by.kliuchnik.project.dataaccess.filters.UserFilter;
+import by.kliuchnik.project.dataaccess.filters.CustomerFilter;
 import by.kliuchnik.project.datamodel.Customer;
 import by.kliuchnik.project.datamodel.User;
 
@@ -22,8 +22,12 @@ public interface UserService {
     void update(User user);
 
     @Transactional
-    void delete(Long id);
-    List<Customer> find(UserFilter filter);
+	void update(Customer customer);
 
-    List<Customer> getAll();
+	@Transactional
+	void delete(Long id);
+
+	List<Customer> find(CustomerFilter userFilter);
+
+	List<User> getAll();
 }

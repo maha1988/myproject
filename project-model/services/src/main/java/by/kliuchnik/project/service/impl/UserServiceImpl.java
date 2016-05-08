@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import by.kliuchnik.project.dataaccess.CustomerDao;
 import by.kliuchnik.project.dataaccess.UserDao;
-import by.kliuchnik.project.dataaccess.filters.UserFilter;
+import by.kliuchnik.project.dataaccess.filters.CustomerFilter;
 import by.kliuchnik.project.datamodel.Customer;
 import by.kliuchnik.project.datamodel.User;
 import by.kliuchnik.project.service.UserService;
@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	@Inject
 	private CustomerDao customerDao;
+	
 
 	@Override
 	public void register(User user, Customer customer) {
@@ -53,7 +54,13 @@ public class UserServiceImpl implements UserService {
 		userDao.update(user);
 
 	}
-	
+
+	@Override
+	public void update(Customer customer) {
+		LOGGER.info("Customer update, new and old: {}", customer, customerDao.get(customer.getId()));
+		customerDao.update(customer);
+
+	}
 	@Override
 	public void delete(Long id) {
 		LOGGER.info("User delete: {}", userDao.get(id), customerDao.get(id));
@@ -64,14 +71,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Customer> find(UserFilter userFilter) {
+	public List<Customer> find(CustomerFilter userFilter) {
+		
 		LOGGER.info("User find by filter: {}", userFilter);
+
 		return customerDao.find(userFilter);
 	}
 
 	@Override
-	public List<Customer> getAll() {
+	public List<User> getAll() {
+		
 		LOGGER.info("User getAll: {}", "Alls users");
-		return customerDao.getAll();
+		
+		return userDao.getAll();
 	}
 }
