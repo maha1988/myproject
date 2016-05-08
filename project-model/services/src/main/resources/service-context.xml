@@ -16,12 +16,12 @@
 
 	<context:annotation-config />
 
-	<context:component-scan base-package="by.kliuchnik.project.service.impl" />
-	<context:component-scan base-package="by.kliuchnik.project.dataaccess.impl" />
+	<context:component-scan base-package="com.kliuchnik.project.service.impl" />
+	<context:component-scan base-package="com.kliuchnik.project.dataaccess.impl" />
 
 
 	<bean id="dataSource"
-		class="by.kliuchnik.project.datamodel.util.SchemaNameAwareBasicDataSource"
+		class="com.kliuchnik.project.datamodel.util.SchemaNameAwareBasicDataSource"
 		destroy-method="close" p:driverClassName="org.postgresql.Driver"
 		p:url="jdbc:postgresql://localhost:5432/postgres" p:username="postgres"
 		p:password="postgres" p:schema="public" />

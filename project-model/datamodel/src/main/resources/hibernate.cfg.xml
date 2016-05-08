@@ -13,10 +13,10 @@
 		<property name="hibernate.jdbc.lob.non_contextual_creation">true</property>
 		<property name="hibernate.enable_lazy_load_no_trans">true</property>
 
-		<mapping class="by.kliuchnik.project.datamodel.User" />	
-		<mapping class="by.kliuchnik.project.datamodel.Customer" />
-		<mapping class="by.kliuchnik.project.datamodel.Order" />
-		<mapping class="by.kliuchnik.project.datamodel.Product" />
-		<mapping class="by.kliuchnik.project.datamodel.Sklad" />
+		<mapping class="com.kliuchnik.project.datamodel.User" />	
+		<mapping class="com.kliuchnik.project.datamodel.Customer" />
+		<mapping class="com.kliuchnik.project.datamodel.Order" />
+		<mapping class="com.kliuchnik.project.datamodel.Product" />
+		<mapping class="com.kliuchnik.project.datamodel.Sklad" />
 	</session-factory>
 </hibernate-configuration> 

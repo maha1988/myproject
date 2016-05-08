@@ -18,13 +18,13 @@
 	</Appenders>
 	<Loggers>
 
-		<Logger name="by.kliuchnik.project.dataaccess"
+		<Logger name="com.kliuchnik.project.dataaccess"
 			level="DEBUG" additivity="false">
 			<AppenderRef ref="CONSOLE" />
 		</Logger>
 
 
-		<Logger name="by.kliuchnik.project.service"
+		<Logger name="com.kliuchnik.project.service"
 			level="INFO" additivity="false">
 			<AppenderRef ref="CONSOLE" />
 			<AppenderRef ref="SERVER_LOGFILE" />

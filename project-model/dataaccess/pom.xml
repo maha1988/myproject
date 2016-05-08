@@ -4,20 +4,17 @@
 
 
 	<parent>
-		<groupId>by.kliuchnik.project</groupId>
+		<groupId>com.kliuchnik.project</groupId>
 		<artifactId>parent-project</artifactId>
 		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>dataaccess</artifactId>
 
-
-
-
 	<dependencies>
 
 		<dependency>
-			<groupId>by.kliuchnik.project</groupId>
+			<groupId>com.kliuchnik.project</groupId>
 			<artifactId>datamodel</artifactId>
 		</dependency>
 
