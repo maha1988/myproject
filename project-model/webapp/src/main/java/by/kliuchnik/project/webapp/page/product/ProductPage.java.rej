@@ -1,0 +1,9 @@
+diff a/project-model/webapp/src/main/java/by/kliuchnik/project/webapp/page/product/ProductPage.java b/project-model/webapp/src/main/java/by/kliuchnik/project/webapp/page/product/ProductPage.java	(rejected hunks)
+@@ -0,0 +1,7 @@
++package by.kliuchnik.project.webapp.page.product;
++
++import by.kliuchnik.project.webapp.page.AbstractPage;
++
++public class ProductPage extends AbstractPage {
++
++}
